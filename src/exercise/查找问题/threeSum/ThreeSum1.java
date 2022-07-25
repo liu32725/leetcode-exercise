@@ -25,7 +25,7 @@ import java.util.*;
  * 链接：https://leetcode.cn/problems/3sum
  * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
-public class ThreeSum {
+public class ThreeSum1 {
 
     public static void main(String[] args) {
         int[] nums = {-1,0,1,2,-1,-4};
@@ -37,37 +37,36 @@ public class ThreeSum {
         if (nums == null || nums.length < 3) {
             return new ArrayList<>();
         }
-
-        List<List<Integer>> lists = new ArrayList<>();
+        Map<Integer, List<Integer>> map = new HashMap<>();
         for (int i = 0; i < nums.length; i++) {
-            int target = -nums[i];
-            List<List<Integer>> result = findTargetInNums(nums, target, i);
-            if (result.size() != 0) {
-                for (List<Integer> list : result) {
-                    list.add(nums[i]);
-                    lists.add(list);
+            if (map.get(nums[i]) == null) {
+                List<Integer> list = new ArrayList<>();
+                list.add(i);
+                map.put(nums[i], list);
+            } else {
+                List<Integer> list = map.get(nums[i]);
+                list.add(i);
+            }
+        }
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i+1; j < nums.length; j++) {
+                int target = 0 - nums[i] - nums[j];
+                List<Integer> list = map.get(target);
+                if (list != null) {
+                    for (Integer integer : list) {
+                        if (integer != i && integer != j && integer > j) {
+                            List<Integer> subList = new ArrayList<>();
+                            subList.add(nums[i]);
+                            subList.add(nums[j]);
+                            subList.add(nums[integer]);
+                            result.add(subList);
+                        }
+                    }
                 }
             }
         }
-        return lists;
+        return result;
     }
 
-    private static List<List<Integer>> findTargetInNums(int[] nums, int target, int exclude) {
-        Map<Integer, Integer> map = new HashMap<>();
-        List<List<Integer>> lists = new ArrayList<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (i == exclude) {
-                continue;
-            }
-            int t = target - nums[i];
-            if (map.get(t) != null) {
-                List<Integer> list = new ArrayList<>();
-                list.add(nums[i]);
-                list.add(t);
-                lists.add(list);
-            }
-            map.put(nums[i], i);
-        }
-        return lists;
-    }
 }
