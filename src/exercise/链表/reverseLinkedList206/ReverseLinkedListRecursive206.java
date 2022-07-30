@@ -48,10 +48,10 @@ public class ReverseLinkedListRecursive206 {
         if (head.next == null) {
             return head;
         }
-        ListNode ret = reverseList(head.next);
+        ListNode listNode = reverseList(head.next);
         head.next.next = head;
         head.next = null;
-        return ret;
+        return listNode;
     }
 
     public static class ListNode {

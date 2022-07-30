@@ -52,8 +52,8 @@ public class ReverseLinkedList2_92 {
         if (count != left) {
             return head;
         }
-        head.next = reverse(head, right - left);
-
+//        head.next = reverse(head, right - left);
+        return null;
     }
 
     public static class ListNode {
